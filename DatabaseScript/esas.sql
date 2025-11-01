@@ -455,6 +455,43 @@ INSERT INTO `student_seat` (`ss_id`, `ss_student_id`, `ss_seat_id`, `ss_descript
 (2, '2', '2', 'Assing to seat'),
 (3, '3', '8', 'Assign seat to Sunil Singh');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam`
+--
+
+CREATE TABLE IF NOT EXISTS `exam` (
+  `exam_id` int(11) NOT NULL AUTO_INCREMENT,
+  `exam_name` varchar(255) NOT NULL,
+  `exam_subject` varchar(255) NOT NULL,
+  `exam_date` date NOT NULL,
+  `exam_start_time` time NOT NULL,
+  `exam_end_time` time NOT NULL,
+  `exam_room_id` varchar(255) DEFAULT NULL,
+  `exam_course_id` varchar(255) DEFAULT NULL,
+  `exam_description` text,
+  `exam_status` varchar(50) DEFAULT 'Scheduled',
+  `exam_created_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`exam_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+--
+-- Dumping data for table `exam`
+--
+
+INSERT INTO `exam` (`exam_id`, `exam_name`, `exam_subject`, `exam_date`, `exam_start_time`, `exam_end_time`, `exam_room_id`, `exam_course_id`, `exam_description`, `exam_status`) VALUES
+(1, 'Mid Semester Exam', 'Database Management', '2024-12-15', '09:00:00', '12:00:00', '1', '1', 'Mid semester examination for Database Management', 'Scheduled'),
+(2, 'Final Exam', 'Java Programming', '2024-12-20', '14:00:00', '17:00:00', '2', '1', 'Final examination for Java Programming', 'Scheduled');
+
+-- --------------------------------------------------------
+
+--
+-- Update student_seat table to link with exams
+--
+
+ALTER TABLE `student_seat` ADD COLUMN `ss_exam_id` varchar(255) DEFAULT NULL AFTER `ss_seat_id`;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

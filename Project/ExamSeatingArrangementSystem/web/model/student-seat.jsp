@@ -16,6 +16,7 @@
 		results.put("ss_id",request.getParameter("ss_id"));
 		results.put("ss_student_id",request.getParameter("ss_student_id"));
 		results.put("ss_seat_id",request.getParameter("ss_seat_id"));
+		results.put("ss_exam_id",request.getParameter("ss_exam_id") != null && !request.getParameter("ss_exam_id").equals("") ? request.getParameter("ss_exam_id") : null);
 		results.put("ss_description",request.getParameter("ss_description"));
 		
 		if((request.getParameter("ss_id")).equals(""))
