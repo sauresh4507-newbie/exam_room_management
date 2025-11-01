@@ -30,6 +30,13 @@
             </select>
           </div>
 		  <div class="half_width">
+            <label for="email">Select Exam</label>
+            <select style="height: 40px; width:300px" name = "ss_exam_id" id = "ss_exam_id">
+                <option value="">Select Exam (Optional)</option>
+            	<% out.print(studentSeatDetails.getExamOption((Integer) Values.get("ss_exam_id"))); %>
+            </select>
+          </div>
+		  <div class="half_width">
             <label for="email">Description<span>*</span></label>
 			<textarea style="width:300px; height:100px;" name="ss_description" required><% out.print(Values.get("ss_description")); %></textarea>
           </div>
