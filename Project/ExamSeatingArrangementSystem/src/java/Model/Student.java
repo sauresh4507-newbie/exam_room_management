@@ -5,16 +5,25 @@ import java.sql.*;
 import com.*;
 import java.io.*;
 
+/**
+ * Student Model Class
+ * Handles all student-related database operations including create, read, update operations
+ * @author JavaCode-29
+ */
 public class Student extends Connect {
 
-    /////Function for connect to the MySQL Server Database////////////
-
+    /**
+     * Constructor - Establishes database connection
+     */
     public Student() {
         Connect.connect_mysql();
     }
 
-    //////////Save User Details /////
-
+    /**
+     * Save new student details to the database
+     * @param studentData HashMap containing student information (student_course_id, student_rollno, student_name, student_father_name, student_dob, student_mobile, student_details)
+     * @return String error message if any error occurs, empty string if successful
+     */
     public String saveStudent(HashMap studentData) {
         String SQL = "INSERT INTO `student` (`student_course_id`, `student_rollno`, `student_name`, `student_father_name`, `student_dob`, `student_mobile`, `student_details`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         int record = 0;
@@ -44,8 +53,11 @@ public class Student extends Connect {
         }
         return error;
     }
-	//////////////////Function for getting Users Details//////////	
-
+    /**
+     * Retrieve student details by student ID
+     * @param student_id The ID of the student to retrieve
+     * @return HashMap containing student details, or empty HashMap if student not found
+     */
     public HashMap getStudentDetails(int student_id) {
         HashMap results = new HashMap();
         int count = 0;
@@ -80,8 +92,11 @@ public class Student extends Connect {
         return results;
     }
 
-    /// Update the Student ////
-
+    /**
+     * Update existing student details in the database
+     * @param studentData HashMap containing student information including student_id
+     * @return String error message if any error occurs, empty string if successful
+     */
     public String updateStudent(HashMap studentData) {
         String SQL = "UPDATE `student` SET `student_course_id` = ?, `student_rollno` = ?, `student_name` = ?, `student_father_name` = ?, `student_dob` = ?, `student_mobile` = ?, `student_details` = ? WHERE `student_id` = ?;";
         String error = "";
@@ -115,7 +130,10 @@ public class Student extends Connect {
         return error;
     }
 
-	////////////////Function for getting all the Airport Details////////////////////  
+    /**
+     * Retrieve all students from the database
+     * @return ArrayList of HashMaps, each containing student details
+     */
     public ArrayList getAllStudent() {
         String SQL = "SELECT * FROM `student`";
         int count = 0;
@@ -143,8 +161,11 @@ public class Student extends Connect {
         return resultArray;
     }
 
-    /////Function for Getting the List////////////
-
+    /**
+     * Get course options as HTML select options
+     * @param SelID Selected course ID (can be null)
+     * @return String HTML option elements for course selection dropdown
+     */
     public String getCourseOption(Integer SelID) {
         int selectedID = SelID.intValue();
         return Connect.getOptionList("course", "course_id", "course_name", "course_id,course_name", selectedID, "1");

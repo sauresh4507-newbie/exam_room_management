@@ -1,32 +1,41 @@
 # Exam-Seating-Arrangement-System-Using-JSP-Servlet
-This web project build using Netbeans IDE. Frame Work use Java Servlet and Jsp. Database Mysql.
 
-Installation instructions ==>
+This web project is built using NetBeans IDE. Framework uses Java Servlet and JSP. Database: MySQL.
 
-1.	install netbeans.(NetBeans IDE 8.0.2) or other version
-2.	install mysql database password (apcl123456) that use in project (you can also change project password see point 13,14)
-3.	mysql workbench
+## Installation Instructions
 
-Database Configure  ==>
+1. Install NetBeans IDE (NetBeans IDE 8.0.2 or other version)
+2. Install MySQL database with password (apcl123456) that is used in the project (you can also change project password - see points 13,14)
+3. Install MySQL Workbench
 
-4.	open mysql workbench 
-5.	unzip the project folder(ESRS.zip)
-6.	open btrs.sql from ESRS\DatabaseScript\esas.sql) location
-7.	copy all file text and past it in mysql Workbance workspace and run it      
-8.	now esas database in available in database
+## Database Configuration
 
-Project Configure  ==>
+4. Open MySQL Workbench 
+5. Unzip the project folder (ESRS.zip)
+6. Open `esas.sql` from `ESRS\DatabaseScript\esas.sql` location
+7. Copy all file text and paste it in MySQL Workbench workspace and run it      
+8. Now `esas` database is available in the database
 
-9.	open netbeans IDE
-10.	GlassFish server by default add in netbeans, if not add GlassFish server
-11.	Open project in netbeans from (ESRS\Project) location
-12.	for change database password, host or anything
-13.	open Connect Class from com package
-14.	now change batabase configure what you want
-15.	run project.
+## Project Configuration
 
-Porject Login  ==>
+9. Open NetBeans IDE
+10. GlassFish server is added by default in NetBeans, if not add GlassFish server
+11. Open project in NetBeans from `ESRS\Project` location
+12. To change database password, host or anything:
+13. Open Connect Class from `com` package
+14. Now change database configuration as you want
+15. Run project
 
-16.	username = admin
-	password = test
+## Project Login
+
+**Username:** admin  
+**Password:** test
+
+## Features
+
+- Student management
+- Room and seat allocation
+- Floor and block management
+- Employee management
+- Exam seating arrangement system
 
