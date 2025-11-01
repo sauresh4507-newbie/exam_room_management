@@ -146,4 +146,10 @@ public class Room extends Connect {
         int selectedID = SelID.intValue();
         return Connect.getOptionList("employee", "employee_id", "employee_first_name", "employee_id,employee_first_name", selectedID, "1");
     }
+
+    /////Function for Getting the List////////////
+    public String getRoomOption(Integer SelID) {
+        int selectedID = SelID.intValue();
+        return Connect.getOptionList("room", "room_id", "room_name", "room_id,room_name", selectedID, "1");
+    }
 }
