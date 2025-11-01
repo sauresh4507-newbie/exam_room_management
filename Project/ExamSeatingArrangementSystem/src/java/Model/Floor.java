@@ -122,4 +122,10 @@ public class Floor extends Connect {
         return resultArray;
     }
 
+    /////Function for Getting the List////////////
+    public String getFloorOption(Integer SelID) {
+        int selectedID = SelID.intValue();
+        return Connect.getOptionList("floor", "floor_id", "floor_name", "floor_id,floor_name", selectedID, "1");
+    }
+
 }

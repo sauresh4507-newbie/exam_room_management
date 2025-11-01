@@ -10,12 +10,15 @@
 		 <!-- Dashboard For Super Admin Section -->
 		 <% if(session.getAttribute("login_level") != null && session.getAttribute("login_level").equals("1")) { %>		
 		  <ul>	
+			<li><a href="dashboard.jsp">Dashboard</a></li>
+			<li><a href="report-exam.jsp">Exam Management</a></li>
 			<li><a href="report-room.jsp">Rooms Reports</a></li>
             <li><a href="report-floor.jsp">Floor Report</a></li>
             <li><a href="report-block.jsp">Block Report</a></li>
 			<li><a href="report-seat.jsp">Seat Report</a></li>
 			<li><a href="report-student.jsp">Student Report</a></li>
 			<li><a href="report-student-seat.jsp">Assign Seat</a></li>
+			<li><a href="advanced-search.jsp">Advanced Search</a></li>
 			<li><a href="report-employee.jsp">Users Reports</a></li>
 			<li><a href="change-password.jsp">Change Password</a></li>
 			<li><a href="login.jsp?act=logout">Logout</a></li>
