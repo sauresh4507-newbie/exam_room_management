@@ -35,6 +35,7 @@
 				<div>
 					<input type="submit" value="Search" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
 					<a href="report-student-seat.jsp" style="background-color: #95a5a6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset</a>
+					<a href="export-student-seat.jsp?search_rollno=<%= request.getParameter("search_rollno") != null ? request.getParameter("search_rollno") : "" %>&search_name=<%= request.getParameter("search_name") != null ? request.getParameter("search_name") : "" %>&search_room=<%= request.getParameter("search_room") != null ? request.getParameter("search_room") : "" %>" style="background-color: #2ecc71; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Export CSV</a>
 				</div>
 			</div>
 		</form>
