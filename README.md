@@ -69,5 +69,6 @@ After login:
 - ✅ Real-time Statistics Dashboard (NEW)
 - ✅ Advanced Search Capabilities (NEW)
 - ✅ Seat Availability Tracking (NEW)
+- ✅ CSV Export for Reports (NEW)
 
 For more details, see [NEW_FEATURES.md](NEW_FEATURES.md)
