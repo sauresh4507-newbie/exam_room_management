@@ -77,12 +77,54 @@ public class Connect {
     
     public static void closeConnection() {
         try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+            if (pstmt != null && !pstmt.isClosed()) {
+                pstmt.close();
+            }
+            if (statement != null && !statement.isClosed()) {
+                statement.close();
+            }
             if (connection != null && !connection.isClosed()) {
                 connection.close();
                 System.out.println("✓ Database connection closed!");
             }
         } catch (Exception e) {
             System.out.println("Error closing connection: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Check if database connection is healthy and active
+     * @return true if connection is valid, false otherwise
+     */
+    public static boolean isConnectionHealthy() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                return false;
+            }
+            // Test connection with a simple query
+            return connection.isValid(5); // 5 second timeout
+        } catch (Exception e) {
+            System.out.println("Connection health check failed: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Ensure database connection is established
+     * Reconnects if connection is null or closed
+     */
+    public static void ensureConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connect_mysql();
+            }
+        } catch (Exception e) {
+            System.out.println("Error ensuring connection: " + e.getMessage());
+            connect_mysql();
         }
     }
 }

@@ -19,22 +19,27 @@ public class Exam extends Connect {
         String SQL = "INSERT INTO `exam` (`exam_name`, `exam_subject`, `exam_date`, `exam_start_time`, `exam_end_time`, `exam_room_id`, `exam_course_id`, `exam_description`, `exam_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         int record = 0;
         String error = "";
+        PreparedStatement localPstmt = null;
 
         try {
-            pstmt = connection.prepareStatement(SQL);
-            pstmt.setString(1, (String) examData.get("exam_name"));
-            pstmt.setString(2, (String) examData.get("exam_subject"));
-            pstmt.setString(3, (String) examData.get("exam_date"));
-            pstmt.setString(4, (String) examData.get("exam_start_time"));
-            pstmt.setString(5, (String) examData.get("exam_end_time"));
-            pstmt.setString(6, (String) examData.get("exam_room_id"));
-            pstmt.setString(7, (String) examData.get("exam_course_id"));
-            pstmt.setString(8, (String) examData.get("exam_description"));
-            pstmt.setString(9, (String) examData.get("exam_status"));
+            // Ensure connection is available
+            Connect.ensureConnection();
+            
+            localPstmt = connection.prepareStatement(SQL);
+            localPstmt.setString(1, (String) examData.get("exam_name"));
+            localPstmt.setString(2, (String) examData.get("exam_subject"));
+            localPstmt.setString(3, (String) examData.get("exam_date"));
+            localPstmt.setString(4, (String) examData.get("exam_start_time"));
+            localPstmt.setString(5, (String) examData.get("exam_end_time"));
+            localPstmt.setString(6, (String) examData.get("exam_room_id"));
+            localPstmt.setString(7, (String) examData.get("exam_course_id"));
+            localPstmt.setString(8, (String) examData.get("exam_description"));
+            localPstmt.setString(9, (String) examData.get("exam_status"));
 
-            record = pstmt.executeUpdate();
-            pstmt.close();
-            connection.close();
+            record = localPstmt.executeUpdate();
+            if (record > 0) {
+                System.out.println("✓ Exam saved successfully!");
+            }
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -43,6 +48,15 @@ public class Exam extends Connect {
             String stackTrace = writer.toString();
             error += "Error : " + stackTrace;
             System.out.println(" Error : " + e.toString());
+        } finally {
+            // Properly close resources
+            try {
+                if (localPstmt != null) {
+                    localPstmt.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error closing prepared statement: " + e.getMessage());
+            }
         }
         return error;
     }
@@ -92,26 +106,33 @@ public class Exam extends Connect {
     public String updateExam(HashMap examData) {
         String SQL = "UPDATE `exam` SET `exam_name` = ?, `exam_subject` = ?, `exam_date` = ?, `exam_start_time` = ?, `exam_end_time` = ?, `exam_room_id` = ?, `exam_course_id` = ?, `exam_description` = ?, `exam_status` = ? WHERE `exam_id` = ?;";
         String error = "";
+        PreparedStatement localPstmt = null;
 
         int record = 0;
 
         try {
-            pstmt = connection.prepareStatement(SQL);
+            // Ensure connection is available
+            Connect.ensureConnection();
+            
+            localPstmt = connection.prepareStatement(SQL);
 
-            pstmt.setString(1, (String) examData.get("exam_name"));
-            pstmt.setString(2, (String) examData.get("exam_subject"));
-            pstmt.setString(3, (String) examData.get("exam_date"));
-            pstmt.setString(4, (String) examData.get("exam_start_time"));
-            pstmt.setString(5, (String) examData.get("exam_end_time"));
-            pstmt.setString(6, (String) examData.get("exam_room_id"));
-            pstmt.setString(7, (String) examData.get("exam_course_id"));
-            pstmt.setString(8, (String) examData.get("exam_description"));
-            pstmt.setString(9, (String) examData.get("exam_status"));
-            pstmt.setString(10, (String) examData.get("exam_id"));
+            localPstmt.setString(1, (String) examData.get("exam_name"));
+            localPstmt.setString(2, (String) examData.get("exam_subject"));
+            localPstmt.setString(3, (String) examData.get("exam_date"));
+            localPstmt.setString(4, (String) examData.get("exam_start_time"));
+            localPstmt.setString(5, (String) examData.get("exam_end_time"));
+            localPstmt.setString(6, (String) examData.get("exam_room_id"));
+            localPstmt.setString(7, (String) examData.get("exam_course_id"));
+            localPstmt.setString(8, (String) examData.get("exam_description"));
+            localPstmt.setString(9, (String) examData.get("exam_status"));
+            localPstmt.setString(10, (String) examData.get("exam_id"));
 
-            record = pstmt.executeUpdate();
-            pstmt.close();
-            connection.close();
+            record = localPstmt.executeUpdate();
+            if (record > 0) {
+                System.out.println("✓ Exam updated successfully!");
+            } else {
+                System.out.println("⚠ No exam record was updated. Check if exam_id exists.");
+            }
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -120,6 +141,15 @@ public class Exam extends Connect {
             String stackTrace = writer.toString();
             error += "Error : " + stackTrace;
             System.out.println(" Error : " + e.toString());
+        } finally {
+            // Properly close resources
+            try {
+                if (localPstmt != null) {
+                    localPstmt.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error closing prepared statement: " + e.getMessage());
+            }
         }
         return error;
     }
@@ -173,37 +203,56 @@ public class Exam extends Connect {
     /////Function for getting exam statistics////////////
     public HashMap getExamStatistics() {
         HashMap stats = new HashMap();
+        Statement localStatement = null;
+        ResultSet localRs = null;
+        
         try {
+            // Ensure connection is available
+            Connect.ensureConnection();
+            
+            localStatement = connection.createStatement();
+            
             // Total exams
             String SQL = "SELECT COUNT(*) as total FROM exam";
-            statement = connection.createStatement();
-            rs = statement.executeQuery(SQL);
-            if (rs.next()) {
-                stats.put("total_exams", rs.getInt("total"));
+            localRs = localStatement.executeQuery(SQL);
+            if (localRs.next()) {
+                stats.put("total_exams", localRs.getInt("total"));
             }
+            if (localRs != null) localRs.close();
 
             // Scheduled exams
             SQL = "SELECT COUNT(*) as total FROM exam WHERE exam_status = 'Scheduled'";
-            rs = statement.executeQuery(SQL);
-            if (rs.next()) {
-                stats.put("scheduled_exams", rs.getInt("total"));
+            localRs = localStatement.executeQuery(SQL);
+            if (localRs.next()) {
+                stats.put("scheduled_exams", localRs.getInt("total"));
             }
+            if (localRs != null) localRs.close();
 
             // Completed exams
             SQL = "SELECT COUNT(*) as total FROM exam WHERE exam_status = 'Completed'";
-            rs = statement.executeQuery(SQL);
-            if (rs.next()) {
-                stats.put("completed_exams", rs.getInt("total"));
+            localRs = localStatement.executeQuery(SQL);
+            if (localRs.next()) {
+                stats.put("completed_exams", localRs.getInt("total"));
             }
+            if (localRs != null) localRs.close();
 
             // Upcoming exams (today or future)
             SQL = "SELECT COUNT(*) as total FROM exam WHERE exam_date >= CURDATE() AND exam_status = 'Scheduled'";
-            rs = statement.executeQuery(SQL);
-            if (rs.next()) {
-                stats.put("upcoming_exams", rs.getInt("total"));
+            localRs = localStatement.executeQuery(SQL);
+            if (localRs.next()) {
+                stats.put("upcoming_exams", localRs.getInt("total"));
             }
         } catch (Exception e) {
             System.out.println("Error getting exam statistics: " + e);
+            e.printStackTrace();
+        } finally {
+            // Properly close resources
+            try {
+                if (localRs != null) localRs.close();
+                if (localStatement != null) localStatement.close();
+            } catch (Exception e) {
+                System.out.println("Error closing resources in getExamStatistics: " + e.getMessage());
+            }
         }
         return stats;
     }
