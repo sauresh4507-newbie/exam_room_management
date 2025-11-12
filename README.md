@@ -1,5 +1,5 @@
 # Exam-Seating-Arrangement-System-Using-JSP-Servlet
-Last updated: 2025-11-04
+Last updated: 2025-11-12
 
 This web project is built using NetBeans IDE. Framework uses Java Servlet and JSP. Database: MySQL.
 

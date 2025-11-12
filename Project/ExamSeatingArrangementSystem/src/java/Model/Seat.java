@@ -1,4 +1,3 @@
-
 package Model;
 
 import java.util.*;
@@ -6,14 +5,26 @@ import java.sql.*;
 import com.*;
 import java.io.*;
 
-
+/**
+ * Seat Model Class
+ * Handles all seat-related database operations including create, read, update operations
+ * @author System Developer
+ */
 public class Seat extends Connect{
-    /////Function for connect to the MySQL Server Database////////////
+    
+    /**
+     * Constructor - Establishes database connection
+     */
 	public Seat()
     {
 		Connect.connect_mysql();
     }
-	//////////Save User Details /////
+	
+	/**
+	 * Save new seat details to the database
+	 * @param seatData HashMap containing seat information (seat_number, seat_block_id, seat_description)
+	 * @return String error message if any error occurs, empty string if successful
+	 */
 	public String saveSeat(HashMap seatData)
 	{
 		String SQL = "INSERT INTO `seat` (`seat_number`, `seat_block_id`, `seat_description`) VALUES (?, ?, ?);";
@@ -43,8 +54,13 @@ public class Seat extends Connect{
 		}
 		return error;
 	}
-	//////////////////Function for getting Users Details//////////	
-public HashMap getSeatDetails(int seat_id)
+	
+	/**
+	 * Get seat details by seat ID
+	 * @param seat_id The ID of the seat to retrieve
+	 * @return HashMap containing seat details (seat_id, seat_number, seat_block_id, seat_description)
+	 */
+	public HashMap getSeatDetails(int seat_id)
 	{
         HashMap results = new HashMap();
 int count=0;
@@ -73,9 +89,14 @@ while(rs.next())
 		 {
 System.out.println("Error is: "+ e);
 	 }
-return results;
+		return results;
     }
-    /// Update the Seat ////
+    
+    /**
+     * Update existing seat details in the database
+     * @param seatData HashMap containing seat information to update (seat_id, seat_number, seat_block_id, seat_description)
+     * @return String error message if any error occurs, empty string if successful
+     */
 	public String updateSeat(HashMap seatData)
 	{
 		String SQL = "UPDATE `seat` SET `seat_number` = ?,`seat_block_id` = ?, `seat_description` = ? WHERE `seat_id` = ?;";
@@ -109,8 +130,11 @@ return results;
 		return error;
 	}
 	
-	////////////////Function for getting all the Airport Details////////////////////  
-public ArrayList getAllSeat()
+	/**
+	 * Get all seats with related floor, room, and block information
+	 * @return ArrayList of HashMaps, each containing seat details with floor_name, room_name, block_name
+	 */
+	public ArrayList getAllSeat()
 	{
 		String SQL = "SELECT * FROM `seat`,`block`,`room`,`floor` WHERE block_room_id = room_id AND block_id = seat_block_id AND room_floor_id = floor_id";
 		int count=0;
@@ -137,9 +161,14 @@ resultArray.add(results);
 		{
 System.out.println("Error is: "+ e);
         }
-return resultArray;
+		return resultArray;
     }
-	/////Function for Getting the List////////////
+	
+	/**
+	 * Get HTML option list for block selection dropdown
+	 * @param SelID The selected block ID (if any)
+	 * @return String containing HTML option tags for block selection
+	 */
 	public String getBlockOption(Integer SelID)
     {
 		int selectedID = SelID.intValue();
